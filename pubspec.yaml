@@ -1,0 +1,29 @@
+name: sunmi_print_library
+description: This is a printer product written by ...
+homepage: https://github.com/
+
+
+version: 1.0.1
+
+environment:
+  sdk: ">=2.16.2 <3.0.0"
+  flutter: ">=1.12.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.17.0
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  plugin:
+    platforms:
+      android:
+        package: com.example.sunmi_printer_library
+        pluginClass: SunmiPrinterPlugin
+
