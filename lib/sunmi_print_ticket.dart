@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class SunmiPrinter {
-  static const platform = MethodChannel('sunmi_print_library/method_channel');
+  static const platform = MethodChannel('sunmi_printer_library/method_channel');
 
   static Future<bool?> bindPrinterService() async {
     // Khởi tạo máy in

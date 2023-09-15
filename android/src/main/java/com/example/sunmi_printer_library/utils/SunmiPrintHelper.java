@@ -42,13 +42,18 @@ public class SunmiPrintHelper {
      */
     private SunmiPrinterService sunmiPrinterService;
 
-    private static SunmiPrintHelper helper = new SunmiPrintHelper();
+//    private static SunmiPrintHelper helper = new SunmiPrintHelper();
 
-    private SunmiPrintHelper() {}
+    private Context _context;
 
-    public static SunmiPrintHelper getInstance() {
-        return helper;
+    public SunmiPrintHelper(Context context) {
+        this._context = context;
     }
+
+
+//    public static SunmiPrintHelper getInstance() {
+//        return helper;
+//    }
 
     private InnerPrinterCallback innerPrinterCallback = new InnerPrinterCallback() {
         @Override
@@ -67,9 +72,9 @@ public class SunmiPrintHelper {
     /**
      * init sunmi print service
      */
-    public void initSunmiPrinterService(Context context){
+    public void initSunmiPrinterService(){
         try {
-            boolean ret =  InnerPrinterManager.getInstance().bindService(context,
+            boolean ret =  InnerPrinterManager.getInstance().bindService(_context,
                     innerPrinterCallback);
             if(!ret){
                 sunmiPrinter = NoSunmiPrinter;
@@ -82,10 +87,10 @@ public class SunmiPrintHelper {
     /**
      *  deInit sunmi print service
      */
-    public void deInitSunmiPrinterService(Context context){
+    public void deInitSunmiPrinterService(){
         try {
             if(sunmiPrinterService != null){
-                InnerPrinterManager.getInstance().unBindService(context, innerPrinterCallback);
+                InnerPrinterManager.getInstance().unBindService(_context, innerPrinterCallback);
                 sunmiPrinterService = null;
                 sunmiPrinter = LostSunmiPrinter;
             }
@@ -116,6 +121,15 @@ public class SunmiPrintHelper {
      */
     private void handleRemoteException(RemoteException e){
         //TODO process when get one exception
+    }
+
+
+    public void commitPrinterBuffer() {
+        try {
+            sunmiPrinterService.commitPrinterBuffer();
+        } catch (RemoteException e) {
+        } catch (NullPointerException e) {
+        }
     }
 
     /**
@@ -156,11 +170,27 @@ public class SunmiPrintHelper {
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
             return;
+            //"String".getBytes();
         }
         try {
             sunmiPrinterService.printerInit(null);
         } catch (RemoteException e) {
             handleRemoteException(e);
+        }
+    }
+    public void enterPrinterBuffer(Boolean clear) {
+        try {
+            sunmiPrinterService.enterPrinterBuffer(clear);
+        } catch (RemoteException e) {
+        } catch (NullPointerException e) {
+        }
+    }
+
+    public void exitPrinterBuffer(Boolean clear){
+        try {
+            sunmiPrinterService.exitPrinterBuffer(clear);
+        } catch (RemoteException e) {
+        } catch (NullPointerException e) {
         }
     }
 
@@ -176,6 +206,18 @@ public class SunmiPrintHelper {
 
         try {
             sunmiPrinterService.lineWrap(3, null);
+        } catch (RemoteException e) {
+            handleRemoteException(e);
+        }
+    }
+    public void printLine(int line){
+        if(sunmiPrinterService == null){
+            //TODO Service disconnection processing
+            return;
+        }
+
+        try {
+            sunmiPrinterService.lineWrap(line, null);
         } catch (RemoteException e) {
             handleRemoteException(e);
         }
@@ -254,7 +296,7 @@ public class SunmiPrintHelper {
             return;
         }
         try {
-             sunmiPrinterService.getPrinterFactory(callbcak);
+            sunmiPrinterService.getPrinterFactory(callbcak);
         } catch (RemoteException e) {
             handleRemoteException(e);
         }
@@ -290,6 +332,22 @@ public class SunmiPrintHelper {
             handleRemoteException(e);
         }
     }
+
+    /**
+     * Set font size
+     */
+    public void setFontSize(int fontSize){
+        if(sunmiPrinterService == null){
+            //TODO Service disconnection processing
+            return;
+        }
+        try {
+            sunmiPrinterService.setFontSize(fontSize, null);
+        } catch (RemoteException e){
+            handleRemoteException(e);
+        }
+    }
+
 
     /**
      *  Due to the distance between the paper hatch and the print head,
@@ -353,6 +411,20 @@ public class SunmiPrintHelper {
 
     }
 
+    public void printDrawRow(){
+        if(sunmiPrinterService == null){
+            //TODO Service disconnection processing
+            return;
+        }
+        try {
+            String content = "-------------------------------------------------------------------";
+            sunmiPrinterService.printTextWithFont(content, "OpenSans-Bold.ttf", 18, null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * print Bar Code
      */
@@ -388,13 +460,15 @@ public class SunmiPrintHelper {
     /**
      * Print a row of a table
      */
-    public void printTable(String[] txts, int[] width, int[] align) {
+    public void printTable(String[] txts, int[] width, int[] align,int size) {
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
             return;
         }
 
         try {
+            sunmiPrinterService.setFontName("OpenSans-Bold.ttf", null);
+            sunmiPrinterService.setFontSize(size, null);
             sunmiPrinterService.printColumnsString(txts, width, align, null);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -467,20 +541,20 @@ public class SunmiPrintHelper {
      *  enter->first print->commit(get result)->twice print->commit(get result)->exit(don't care
      *  result)
      */
-//    public void printTrans(Context context, InnerResultCallback callbcak){
-//        if(sunmiPrinterService == null){
-//            //TODO Service disconnection processing
-//            return;
-//        }
-//
-//        try {
-//            sunmiPrinterService.enterPrinterBuffer(true);
-//            printExample(context);
-//            sunmiPrinterService.exitPrinterBufferWithCallback(true, callbcak);
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void printTrans(InnerResultCallback callbcak){
+        if(sunmiPrinterService == null){
+            //TODO Service disconnection processing
+            return;
+        }
+
+        try {
+            sunmiPrinterService.enterPrinterBuffer(true);
+            printExample();
+            sunmiPrinterService.exitPrinterBufferWithCallback(true, callbcak);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      *  Open cash box
@@ -593,13 +667,96 @@ public class SunmiPrintHelper {
     }
 
     /**
-     * Used to report the real-time query status of the printer, which can be used before each
-     * printing
+     *  Sample print receipt
      */
-    public void showPrinterStatus(Context context){
+    public void printExample(){
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
             return ;
+        }
+
+        try {
+            int paper = sunmiPrinterService.getPrinterPaper();
+            sunmiPrinterService.printerInit(null);
+            sunmiPrinterService.setAlignment(1, null);
+            sunmiPrinterService.printText("测试样张\n", null);
+//            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.sunmi);
+//            sunmiPrinterService.printBitmap(bitmap, null);
+            sunmiPrinterService.lineWrap(1, null);
+            sunmiPrinterService.setAlignment(0, null);
+            try {
+                sunmiPrinterService.setPrinterStyle(WoyouConsts.SET_LINE_SPACING, 0);
+            } catch (RemoteException e) {
+                sunmiPrinterService.sendRAWData(new byte[]{0x1B, 0x33, 0x00}, null);
+            }
+            sunmiPrinterService.printTextWithFont("说明：这是一个自定义的小票样式例子,开发者可以仿照此进行自己的构建\n",
+                    null, 12, null);
+            if(paper == 1){
+                sunmiPrinterService.printText("--------------------------------\n", null);
+            }else{
+                sunmiPrinterService.printText("------------------------------------------------\n",
+                        null);
+            }
+            try {
+                sunmiPrinterService.setPrinterStyle(WoyouConsts.ENABLE_BOLD, WoyouConsts.ENABLE);
+            } catch (RemoteException e) {
+                sunmiPrinterService.sendRAWData(ESCUtil.boldOn(), null);
+            }
+            String txts[] = new String[]{"商品", "价格"};
+            int width[] = new int[]{1, 1};
+            int align[] = new int[]{0, 2};
+            sunmiPrinterService.printColumnsString(txts, width, align, null);
+            try {
+                sunmiPrinterService.setPrinterStyle(WoyouConsts.ENABLE_BOLD, WoyouConsts.DISABLE);
+            } catch (RemoteException e) {
+                sunmiPrinterService.sendRAWData(ESCUtil.boldOff(), null);
+            }
+            if(paper == 1){
+                sunmiPrinterService.printText("--------------------------------\n", null);
+            }else{
+                sunmiPrinterService.printText("------------------------------------------------\n",
+                        null);
+            }
+            txts[0] = "aaaa";
+            txts[1] = "bbbb";
+            sunmiPrinterService.printColumnsString(txts, width, align, null);
+            txts[0] = "ccc";
+            txts[1] = "vvvv";
+            sunmiPrinterService.printColumnsString(txts, width, align, null);
+            txts[0] = "bbbb";
+            txts[1] = "nnnnn";
+            sunmiPrinterService.printColumnsString(txts, width, align, null);
+            txts[0] = "mmmm";
+            txts[1] = "qqqq";
+            sunmiPrinterService.printColumnsString(txts, width, align, null);
+            txts[0] = "wwww";
+            txts[1] = "eee";
+            sunmiPrinterService.printColumnsString(txts, width, align, null);
+            if(paper == 1){
+                sunmiPrinterService.printText("--------------------------------\n", null);
+            }else{
+                sunmiPrinterService.printText("------------------------------------------------\n",
+                        null);
+            }
+            sunmiPrinterService.printTextWithFont("总计:          59¥\b", null, 40, null);
+            sunmiPrinterService.setAlignment(1, null);
+            sunmiPrinterService.printQRCode("谢谢惠顾", 10, 0, null);
+            sunmiPrinterService.setFontSize(36, null);
+            sunmiPrinterService.printText("谢谢惠顾", null);
+            sunmiPrinterService.autoOutPaper(null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Used to report the real-time query status of the printer, which can be used before each
+     * printing
+     */
+    public String showPrinterStatus(){
+        if(sunmiPrinterService == null){
+            //TODO Service disconnection processing
+            return "";
         }
         String result = "Interface is too low to implement interface";
         try {
@@ -641,7 +798,8 @@ public class SunmiPrintHelper {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        Toast.makeText(_context, result, Toast.LENGTH_LONG).show();
+        return result;
     }
 
     /**
@@ -705,3 +863,4 @@ public class SunmiPrintHelper {
         sunmiPrinterService.lineWrap(1, null);
     }
 }
+

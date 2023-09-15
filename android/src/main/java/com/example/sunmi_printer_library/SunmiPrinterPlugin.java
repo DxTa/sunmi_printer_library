@@ -18,7 +18,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 
 public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
-    private String CHANNEL = "sunmi_print_library/method_channel";
+    private String CHANNEL = "sunmi_printer_library/method_channel";
     String bigFont = "BeVietnamPro-Medium.ttf";
     String bigFontBold = "BeVietnamPro-Bold.ttf";
     String fontExtraBold = "BeVietnamPro-ExtraBold.ttf";
@@ -44,7 +44,7 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
         final MethodChannel channel = new MethodChannel(
                 flutterPluginBinding.getBinaryMessenger(),
                 CHANNEL);
-        //sunmiPrintHelper = new SunmiPrintHelper(flutterPluginBinding.getApplicationContext());
+        sunmiPrintHelper = new SunmiPrintHelper(flutterPluginBinding.getApplicationContext());
 
         channel.setMethodCallHandler(this);
     }
@@ -63,15 +63,15 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
         // (call, result) -> {
         switch (call.method) {
             case "BIND_PRINTER_SERVICE":
-               // sunmiPrintHelper.initSunmiPrinterService();
+                sunmiPrintHelper.initSunmiPrinterService();
                 result.success(true);
                 break;
             case "UNBIND_PRINTER_SERVICE":
-              //  sunmiPrintHelper.deInitSunmiPrinterService();
+                sunmiPrintHelper.deInitSunmiPrinterService();
                 result.success(true);
                 break;
             case "PRINTER_EXAMPLE":
-              //  sunmiPrintHelper.printExample();
+                sunmiPrintHelper.printExample();
                 result.success(true);
                 break;
             case "INIT_PRINTER":
@@ -80,21 +80,21 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 break;
             case "ENTER_PRINTER_BUFFER":
                 Boolean clearEnter  = call.argument("clearEnter");
-               // sunmiPrintHelper.exitPrinterBuffer(clearEnter);
+                sunmiPrintHelper.exitPrinterBuffer(clearEnter);
                 result.success(true);
                 break;
             case "EXIT_PRINTER_BUFFER":
                 Boolean clear = call.argument("clearExit");
-               // sunmiPrintHelper.exitPrinterBuffer(clear);
+                sunmiPrintHelper.exitPrinterBuffer(clear);
                 result.success(true);
                 break;
             case "COMMIT_PRINTER_BUFFER":
-              //  sunmiPrintHelper.commitPrinterBuffer();
+                sunmiPrintHelper.commitPrinterBuffer();
                 result.success(true);
                 break;
             case "FONT_SIZE":
                 int fontSize = call.argument("size");
-              //  sunmiPrintHelper.setFontSize(fontSize);
+                sunmiPrintHelper.setFontSize(fontSize);
                 result.success(true);
                 break;
             case "PRINT_TEXT":
@@ -126,7 +126,7 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 break;
             case "LINE_WRAP":
                 int lines = call.argument("lines");
-               // sunmiPrintHelper.printLine(lines);
+                sunmiPrintHelper.printLine(lines);
                 result.success(true);
                 break;
 
@@ -174,7 +174,7 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                         colsAlign[i] = alignColumn;
                     }
 
-                  //  sunmiPrintHelper.printTable(colsText, colsWidth, colsAlign, fontSizeT);
+                    sunmiPrintHelper.printTable(colsText, colsWidth, colsAlign, fontSizeT);
                     result.success(true);
                 } catch (Exception err) {
                     Log.d("SunmiPrinter", err.getMessage());
@@ -187,7 +187,7 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 //                result.success(true);
 //                break;
             case "PRINT_STATUS":
-               // sunmiPrintHelper.showPrinterStatus();
+                sunmiPrintHelper.showPrinterStatus();
                 result.success(true);
                 break;
             case "OPEN_CASH_BOX":
@@ -220,7 +220,7 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 result.success(isLabelMode);
                 break;
             case "PRINT_TRANS":
-               // sunmiPrintHelper.printTrans(null);
+                sunmiPrintHelper.printTrans(null);
                 result.success(true);
                 break;
             case "CONTROL_LCD":
