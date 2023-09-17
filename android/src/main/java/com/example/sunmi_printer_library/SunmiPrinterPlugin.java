@@ -21,10 +21,10 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin;
 
 public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
     private String CHANNEL = "sunmi_printer_library/method_channel";
-    String bigFont = "BeVietnamPro-Medium.ttf";
-    String bigFontBold = "BeVietnamPro-Bold.ttf";
-    String fontExtraBold = "BeVietnamPro-ExtraBold.ttf";
-    String fontLight = "BeVietnamPro-Light.ttf";
+    String bigFont = "SFPRODISPLAYMEDIUM.tff";
+    String bigFontBold = "SFPRODISPLAYBOLD.ttf";
+    String fontExtraBold = "SFPRODISPLAYBOLD.ttf";
+    String fontLight = "SFPRODISPLAYLIGHT.ttf";
     String typeFont = "";
 
     SunmiPrintHelper sunmiPrintHelper;
