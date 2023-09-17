@@ -74,7 +74,7 @@ class HomePrinterView extends StatelessWidget {
                   //await SunmiPrinter.cutPaper();
                   await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
-                  print(result);
+                  print("Result print: " + result);
                   await SunmiPrinter.unbindPrinterService();
                 },
                 child: const Text("In vé"),
@@ -109,7 +109,7 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.printLine(3);
                   await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
-                  print(result);
+                  print("Result print: " + result);
                   await SunmiPrinter.unbindPrinterService();
                 },
                 child: const Text("In bảng hoá đơn"),
@@ -168,7 +168,7 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.printLine(3);
                   await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
-                  print(result);
+                  print("Result print: " + result);
                   await SunmiPrinter.unbindPrinterService();
                 },
                 child: const Text("Bắc Ninh - Thanh Hoá"),
@@ -188,7 +188,7 @@ class HomePrinterView extends StatelessWidget {
                       textposition: 1);
                   await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
-                  print(result);
+                  print("Result print: " + result);
                   await SunmiPrinter.unbindPrinterService();
                 },
                 child: const Text("Bar code"),
@@ -208,7 +208,7 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.printLine(3);
                   await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
-                  print(result);
+                  print("Result print: " + result);
                   await SunmiPrinter.unbindPrinterService();
                 },
                 child: const Text("qr code"),
@@ -226,7 +226,7 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.printImage(byte);
                   await SunmiPrinter.printLine(2);
                   final result = await SunmiPrinter.exitTransactionPrint();
-                  print(result);
+                  print("Result print: " + result);
                 },
                 child: Text("In ảnh"),
               ),
