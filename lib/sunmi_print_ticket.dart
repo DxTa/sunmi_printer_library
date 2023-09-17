@@ -24,11 +24,8 @@ class SunmiPrinter {
   }
 
   ///*startTransactionPrint*
-  ///
-  ///If you want to print in one transaction, you can start the transaction, build your print commands without send to the buffer
-  static Future<void> startTransactionPrint([bool clear = false]) async {
-    Map<String, dynamic> arguments = <String, dynamic>{"clearEnter": clear};
-    await platform.invokeMethod("ENTER_PRINTER_BUFFER", arguments);
+  static Future<void> startTransactionPrint() async {
+    await platform.invokeMethod("ENTER_PRINTER_BUFFER");
   }
 
   ///*submitTransactionPrint*
@@ -42,9 +39,8 @@ class SunmiPrinter {
   ///
   ///This method will close the transaction
 
-  static Future<void> exitTransactionPrint([bool clear = true]) async {
-    Map<String, dynamic> arguments = <String, dynamic>{"clearExit": clear};
-    await platform.invokeMethod("EXIT_PRINTER_BUFFER", arguments);
+  static Future<String> exitTransactionPrint() async {
+    return await platform.invokeMethod("EXIT_PRINTER_BUFFER");
   }
 
   ///*resetFontSize*
