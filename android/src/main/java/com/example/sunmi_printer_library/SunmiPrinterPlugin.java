@@ -2,11 +2,13 @@ package com.example.sunmi_printer_library;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.RemoteException;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.sunmi_printer_library.utils.SunmiPrintHelper;
+import com.sunmi.peripheral.printer.InnerResultCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -79,14 +81,32 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 result.success(true);
                 break;
             case "ENTER_PRINTER_BUFFER":
-                Boolean clearEnter  = call.argument("clearEnter");
-                sunmiPrintHelper.exitPrinterBuffer(clearEnter);
+                sunmiPrintHelper.enterPrinterBuffer();
                 result.success(true);
                 break;
             case "EXIT_PRINTER_BUFFER":
-                Boolean clear = call.argument("clearExit");
-                sunmiPrintHelper.exitPrinterBuffer(clear);
-                result.success(true);
+                sunmiPrintHelper.exitPrinterBufferWithCallback(new InnerResultCallback() {
+                    @Override
+                    public void onRunResult(boolean isSuccess) throws RemoteException {
+
+                    }
+
+                    @Override
+                    public void onReturnString(String result) throws RemoteException {
+
+                    }
+
+                    @Override
+                    public void onRaiseException(int code, String msg) throws RemoteException {
+
+                    }
+
+                    @Override
+                    public void onPrintResult(int code, String msg) throws RemoteException {
+                        String resultPrint = code + " - " + msg;
+                        result.success(resultPrint);
+                    }
+                });
                 break;
             case "COMMIT_PRINTER_BUFFER":
                 sunmiPrintHelper.commitPrinterBuffer();

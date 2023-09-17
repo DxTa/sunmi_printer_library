@@ -556,6 +556,30 @@ public class SunmiPrintHelper {
         }
     }
 
+    public void enterPrinterBuffer() {
+        if (sunmiPrinterService == null) {
+            return;
+        }
+
+        try {
+            sunmiPrinterService.enterPrinterBuffer(true);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exitPrinterBufferWithCallback(InnerResultCallback callback) {
+        if (sunmiPrinterService == null) {
+            return;
+        }
+
+        try {
+            sunmiPrinterService.exitPrinterBufferWithCallback(true, callback);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      *  Open cash box
      *  This method can be used on Sunmi devices with a cash drawer interface
