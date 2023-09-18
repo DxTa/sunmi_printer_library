@@ -28,6 +28,14 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
     compileSdk 34
 
+    // signingConfigs {
+    //     debug {
+    //         keyAlias 'test'
+    //         keyPassword '123456'
+    //         storePassword '123456'
+    //     }
+    // }
+
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).

@@ -2,8 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sunmi_print_library/sunmi_print_enums.dart';
-import 'package:sunmi_print_library/sunmi_print_ticket.dart';
+import 'package:sunmi_print_library/sunmi_printer.dart';
 import 'package:intl/intl.dart';
 
 void main() {
