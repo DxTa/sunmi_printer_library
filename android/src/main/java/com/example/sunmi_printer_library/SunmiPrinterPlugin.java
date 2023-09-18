@@ -207,8 +207,8 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 //                result.success(true);
 //                break;
             case "PRINT_STATUS":
-                sunmiPrintHelper.showPrinterStatus();
-                result.success(true);
+                String resultStatus = sunmiPrintHelper.showPrinterStatus();
+                result.success(resultStatus);
                 break;
             case "OPEN_CASH_BOX":
                 sunmiPrintHelper.openCashBox();

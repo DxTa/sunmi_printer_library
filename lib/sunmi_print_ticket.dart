@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'sunmi_print_enums.dart';
 
 class SunmiPrinter {
   static const platform = MethodChannel('sunmi_printer_library/method_channel');
@@ -56,12 +57,12 @@ class SunmiPrinter {
     await platform.invokeMethod('PRINTER_EXAMPLE');
   }
 
-  static Future<void> cutPaper() async {
+  static Future<void> cut() async {
     // cắt giấy
     await platform.invokeMethod('CUT_PAPER');
   }
 
-  static Future<void> printLine(int line) async {
+  static Future<void> lineWrap(int line) async {
     Map<String, dynamic> arguments = <String, dynamic>{"lines": line};
     await platform.invokeMethod('LINE_WRAP', arguments);
   }
@@ -107,8 +108,52 @@ class SunmiPrinter {
     };
     await platform.invokeMethod("PRINT_TEXT", arguments);
   }
+  
+  ///*printTextPlus*
+  ///
+  ///This method will print a simple text in your printer
+  /// With the [SunmiStyle] you can put in one line, the size, alignment and bold
+  static Future<void> printTextPlus(String text, {SunmiStyle? style}) async {
+    if (style != null) {
+      if (style.align != null) {
+        await setAlignment(style.align!);
+      }
 
-  static Future<void> setAlignment(int value) async {
+      int _fontSize = 24;
+      if (style.fontSize != null) {
+        switch (style.fontSize) {
+          case SunmiFontSize.XS:
+            _fontSize = 14;
+            break;
+          case SunmiFontSize.SM:
+            _fontSize = 18;
+            break;
+          case SunmiFontSize.MD:
+            _fontSize = 24;
+            break;
+          case SunmiFontSize.LG:
+            _fontSize = 36;
+            break;
+          case SunmiFontSize.XL:
+            _fontSize = 42;
+            break;
+        }
+      }
+
+      bool isBold = false;
+      if (style.bold != null) {
+        if (style.bold == true) {
+          isBold = true;
+        }
+      }
+
+
+      await printText(
+          text: text, bold: isBold, size: _fontSize);
+    }
+  }
+
+  static Future<void> setAlignmentPlus(int value) async {
     Map<String, dynamic> arguments = <String, dynamic>{"alignment": value};
     await platform.invokeMethod("SET_ALIGNMENT", arguments);
   }
@@ -155,6 +200,36 @@ class SunmiPrinter {
       "data": dataQRCode,
       "modulesize": modulesize,
       "errorlevel": errorlevel
+    };
+    await platform.invokeMethod("PRINT_QRCODE", arguments);
+  }
+
+  ///*printQRCode*
+  ///
+  ///With this method you can print a qrcode with some errorLevel and size.
+  static Future<void> printQRCode(String data,
+      {int size = 5,
+        SunmiQrcodeLevel errorLevel = SunmiQrcodeLevel.LEVEL_H}) async {
+    int _errorlevel = 3;
+    switch (errorLevel) {
+      case SunmiQrcodeLevel.LEVEL_L:
+        _errorlevel = 0;
+        break;
+      case SunmiQrcodeLevel.LEVEL_M:
+        _errorlevel = 1;
+
+        break;
+      case SunmiQrcodeLevel.LEVEL_Q:
+        _errorlevel = 2;
+        break;
+      case SunmiQrcodeLevel.LEVEL_H:
+        _errorlevel = 3;
+        break;
+    }
+    Map<String, dynamic> arguments = <String, dynamic>{
+      "data": data,
+      'modulesize': size,
+      'errorlevel': _errorlevel
     };
     await platform.invokeMethod("PRINT_QRCODE", arguments);
   }
@@ -220,6 +295,91 @@ class SunmiPrinter {
   static Future<void> printeDistance() async {
     await platform.invokeMethod("PRINTE_DISTANCE");
   }
+
+  ///*setFontSize*
+  ///
+  ///This method will change the fontsize , between extra small and extra large.
+  ///You can see the sizes below or in the enum file.
+
+  static Future<void> setFontSize(SunmiFontSize _size) async {
+    int _fontSize = 24;
+    switch (_size) {
+      case SunmiFontSize.XS:
+        _fontSize = 14;
+        break;
+      case SunmiFontSize.SM:
+        _fontSize = 18;
+        break;
+      case SunmiFontSize.MD:
+        _fontSize = 24;
+        break;
+      case SunmiFontSize.LG:
+        _fontSize = 36;
+        break;
+      case SunmiFontSize.XL:
+        _fontSize = 42;
+        break;
+    }
+    Map<String, dynamic> arguments = <String, dynamic>{"size": _fontSize};
+
+    await platform.invokeMethod("FONT_SIZE", arguments);
+  }
+
+  ///*setCustomFontSize*
+  ///
+  ///This method will allow you to put any font size integer and try the best fit for you
+  static Future<void> setCustomFontSize(int _size) async {
+    Map<String, dynamic> arguments = <String, dynamic>{"size": _size};
+    await platform.invokeMethod("FONT_SIZE", arguments);
+  }
+
+  static Future<void> setAlignment(SunmiPrintAlign alignment) async {
+    late int value;
+    switch (alignment) {
+      case SunmiPrintAlign.LEFT:
+        value = 0;
+        break;
+      case SunmiPrintAlign.CENTER:
+        value = 1;
+        break;
+      case SunmiPrintAlign.RIGHT:
+        value = 2;
+        break;
+      default:
+        value = 0;
+    }
+    
+    Map<String, dynamic> arguments = <String, dynamic>{"alignment": value};
+    await platform.invokeMethod("SET_ALIGNMENT", arguments);
+  }
+
+  ///*bold*
+  ///
+  ///With this method you can bold a string very easy, just put this method before a [printText] and everyting after this mehod will be bold
+
+  static Future<void> bold() async {
+    final List<int> boldOn = [27, 69, 1];
+
+    await printRawData(Uint8List.fromList(boldOn));
+  }
+
+  ///*resetBold*
+  ///
+  ///This method will just reset the bold to a normal font weight
+  static Future<void> resetBold() async {
+    final List<int> boldOff = [27, 69, 0];
+
+    await printRawData(Uint8List.fromList(boldOff));
+  }
+
+  ///*printRawData*
+  ///
+  ///With this method you can print a raw data, or a data that was made with some esc/pos package to simplify your calls
+  ///*This is good if you have another print method that give you a [List<int>] that you can convert to esc/pos here
+  static Future<void> printRawData(Uint8List data) async {
+    Map<String, dynamic> arguments = <String, dynamic>{"data": data};
+    await platform.invokeMethod("SENT_RAW_DATA", arguments);
+  }
 }
 
 class ColumnMaker {
@@ -254,3 +414,4 @@ class ColumnMaker {
     };
   }
 }
+
