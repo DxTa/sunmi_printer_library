@@ -777,15 +777,16 @@ public class SunmiPrintHelper {
      * Used to report the real-time query status of the printer, which can be used before each
      * printing
      */
-    public String showPrinterStatus(){
+    public int showPrinterStatus(){
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
-            return "";
+            return 0;
         }
         String result = "Interface is too low to implement interface";
+        int codeResult = 0;
         try {
-            int res = sunmiPrinterService.updatePrinterState();
-            switch (res){
+            codeResult = sunmiPrinterService.updatePrinterState();
+            switch (codeResult){
                 case 1:
                     result = "printer is running";
                     break;
@@ -823,7 +824,7 @@ public class SunmiPrintHelper {
             e.printStackTrace();
         }
         Toast.makeText(_context, result, Toast.LENGTH_LONG).show();
-        return result;
+        return codeResult;
     }
 
     /**

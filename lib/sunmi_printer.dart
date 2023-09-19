@@ -6,6 +6,23 @@ import 'sunmi_print_enums.dart';
 class SunmiPrinter {
   static const platform = MethodChannel('sunmi_printer_library/method_channel');
 
+  static final Map _PrinterStatus = {
+    'ERROR': 'Something went wrong.',
+    'NORMAL': 'Printer is running',
+    'PREPARING': 'Printer found but still initializing',
+    'ABNORMAL_COMMUNICATION': 'Printer hardware interface is abnormal and needs to be reprinted',
+    'OUT_OF_PAPER': 'Printer is out of paper',
+    'OVERHEATED': 'Printer is overheating',
+    'NOT_CLOSED': "Printer's cover is not closed",
+    'PAPER_CUTTER_ABNORMAL': "Printer's cutter is abnormal",
+    'PAPER_CUTTER_RECOVERED': "Printer's cutter is normal",
+    'NO_BLACK_MARK': "Not found black mark paper",
+    'NO_PRINTER_DETECTED': 'No printer had been detected',
+    'FAILED_TO_UPGRADE_FIRMWARE': 'Failed to upgrade firmware',
+    'EXCEPTION': 'Unknown Error code',
+  };
+
+
   static Future<bool?> bindPrinterService() async {
     // Khởi tạo máy in
     final bool? status = await platform.invokeMethod('BIND_PRINTER_SERVICE');
@@ -248,6 +265,57 @@ class SunmiPrinter {
 
   static Future<String> printStatus() async {
     return await platform.invokeMethod("PRINT_STATUS");
+  }
+
+  ///*getPrinterStatus*
+  ///
+  ///This method will give you the status of the printer.
+  ///Sometimes the printer can give you an error, so, try to print anyway.
+  static Future<PrinterStatus> getPrinterStatus() async {
+    final String? status = await platform.invokeMethod('PRINT_STATUS');
+    print('getPrinterStatus');
+    print(status);
+    switch (status) {
+      case 'ERROR':
+        return PrinterStatus.ERROR;
+      case 'NORMAL':
+        return PrinterStatus.NORMAL;
+      case 'ABNORMAL_COMMUNICATION':
+        return PrinterStatus.ABNORMAL_COMMUNICATION;
+      case 'OUT_OF_PAPER':
+        return PrinterStatus.OUT_OF_PAPER;
+      case 'PREPARING':
+        return PrinterStatus.PREPARING;
+      case 'OVERHEATED':
+        return PrinterStatus.OVERHEATED;
+      case 'OPEN_THE_LID':
+        return PrinterStatus.OPEN_THE_LID;
+      case 'PAPER_CUTTER_ABNORMAL':
+        return PrinterStatus.PAPER_CUTTER_ABNORMAL;
+      case 'PAPER_CUTTER_RECOVERED':
+        return PrinterStatus.PAPER_CUTTER_RECOVERED;
+      case 'NO_BLACK_MARK':
+        return PrinterStatus.NO_BLACK_MARK;
+      case 'NO_PRINTER_DETECTED':
+        return PrinterStatus.NO_PRINTER_DETECTED;
+      case 'FAILED_TO_UPGRADE_FIRMWARE':
+        return PrinterStatus.FAILED_TO_UPGRADE_FIRMWARE;
+      case 'EXCEPTION':
+        return PrinterStatus.EXCEPTION;
+      default:
+        return PrinterStatus.UNKNOWN;
+    }
+  }
+
+  ///*getPrinterStatusWithVerbose*
+  ///
+  ///Almos the same of  [getPrinterStatus] , but will return a text explaned
+  ///@see the _printerStatus map!
+  static Future<String?> getPrinterStatusWithVerbose() async {
+    final String? status = await platform.invokeMethod('PRINT_STATUS');
+    final statusMsg = _PrinterStatus[status];
+    print(statusMsg);
+    return statusMsg;
   }
 
   static Future<String> getPrintPaper() async {

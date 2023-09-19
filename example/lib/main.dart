@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sunmi_print_library/sunmi_print_enums.dart';
 import 'package:sunmi_print_library/sunmi_printer.dart';
 import 'package:intl/intl.dart';
 
@@ -242,8 +243,10 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.initPrinter();
 
 
-                  final result = await SunmiPrinter.printStatus();
-                  print("Result print: " + result);
+                  final result1 = await SunmiPrinter.printStatus();
+                  final result2 = await SunmiPrinter.getPrinterStatusWithVerbose();
+                  print("Result1 status print: " + result1);
+                  print("Result2 status print: " + (result2 ?? ""));
                   await SunmiPrinter.unbindPrinterService();
                 },
                 child: Text("Check trạng thái máy in"),
