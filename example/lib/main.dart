@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sunmi_print_library/sunmi_print_enums.dart';
 import 'package:sunmi_print_library/sunmi_printer.dart';
 import 'package:intl/intl.dart';
 
@@ -42,37 +43,37 @@ class HomePrinterView extends StatelessWidget {
                           "${AppConst.taxCodeName} ${AppConst.taxCodeCustomer}",
                       bold: false,
                       size: 20);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text: AppConst.nameTicket, bold: false, size: 27);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text:
                           "${AppConst.fareTicket} ${AppConst.moneyTicket} đồng",
                       bold: false,
                       size: 25);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   //giờ vào
                   await SunmiPrinter.printText(
                       text:
                           "${AppConst.ticketStartingDateHP} ${DateTime.now().hour} h ${DateTime.now().minute} p",
                       bold: false,
                       size: 20);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text:
                           "${AppConst.day} ${DateTime.now().day} ${AppConst.month} ${DateTime.now().month} ${AppConst.year} ${DateTime.now().year}",
                       bold: false,
                       size: 19);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text:
                           "${AppConst.ncc} ${AppConst.nameCompanyNCC} - ${AppConst.nameTaxCode} ${AppConst.taxCode} \n \t ${AppConst.custommerService} ${AppConst.phoneCustomerService}",
                       bold: true,
                       size: 17);
-                  await SunmiPrinter.printLine(3);
+                  await SunmiPrinter.lineWrap(3);
                   //await SunmiPrinter.cutPaper();
-                  await SunmiPrinter.submitTransactionPrint();
+                  // await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
                   print("Result print: " + result);
                   await SunmiPrinter.unbindPrinterService();
@@ -106,7 +107,7 @@ class HomePrinterView extends StatelessWidget {
                     ColumnMaker(text: '120.00000', width: 10, align: 2),
                   ]);
                   //await SunmiPrinter.initPrinterExam();
-                  await SunmiPrinter.printLine(3);
+                  await SunmiPrinter.lineWrap(3);
                   await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
                   print("Result print: " + result);
@@ -133,39 +134,39 @@ class HomePrinterView extends StatelessWidget {
                           "${AppConst.taxCodeName} ${AppConst.taxCodeCustomer}",
                       bold: false,
                       size: 21);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text: AppConst.nameTicket2, bold: false, size: 30);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text: AppConst.location, bold: false, size: 27);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text:
                           "${AppConst.fareTicket} ${AppConst.moneyTicket2} đồng",
                       bold: false,
                       size: 25);
 
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text:
                           "${AppConst.ticketStartingDate} ${DateTime.now().hour} h ${DateTime.now().minute} p ",
                       bold: false,
                       size: 20);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text:
                           "${AppConst.day} ${DateTime.now().day} ${AppConst.month} ${DateTime.now().month} ${AppConst.year} ${DateTime.now().year}",
                       bold: false,
                       size: 19);
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printText(
                       text:
                           "${AppConst.ncc} ${AppConst.nameCompanyNCC} - ${AppConst.nameTaxCode} ${AppConst.taxCode} \n \t ${AppConst.custommerService} ${AppConst.phoneCustomerService}",
                       bold: true,
                       size: 17);
 
-                  await SunmiPrinter.printLine(3);
+                  await SunmiPrinter.lineWrap(3);
                   await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
                   print("Result print: " + result);
@@ -200,12 +201,12 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.bindPrinterService();
                   await SunmiPrinter.initPrinter();
                   await SunmiPrinter.startTransactionPrint();
-                  await SunmiPrinter.setAlignment(1);
+                  await SunmiPrinter.setAlignmentPlus(1);
                   await SunmiPrinter.printQr(
                       dataQRCode: "https://github.com/hueht21",
                       modulesize: 5,
                       errorlevel: 2);
-                  await SunmiPrinter.printLine(3);
+                  await SunmiPrinter.lineWrap(3);
                   await SunmiPrinter.submitTransactionPrint();
                   final result = await SunmiPrinter.exitTransactionPrint();
                   print("Result print: " + result);
@@ -217,18 +218,38 @@ class HomePrinterView extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () async {
+                  await SunmiPrinter.bindPrinterService();
                   await SunmiPrinter.initPrinter();
-
-                  Uint8List byte =
-                      await _getImageFromAsset('assets/images/dash.jpg');
-                  await SunmiPrinter.setAlignment(1);
                   await SunmiPrinter.startTransactionPrint();
-                  await SunmiPrinter.printImage(byte);
-                  await SunmiPrinter.printLine(2);
+
+                  await SunmiPrinter.printTextPlus('Hello I\'m bold',
+                      style: SunmiStyle(bold: true, align: SunmiPrintAlign.CENTER, fontSize: SunmiFontSize.XL));
+                  await SunmiPrinter.printTextPlus('Hello I\'m bold',
+                      style: SunmiStyle(align: SunmiPrintAlign.LEFT, fontSize: SunmiFontSize.LG));
+                  await SunmiPrinter.printTextPlus('Hello I\'m bold',
+                      style: SunmiStyle(align: SunmiPrintAlign.RIGHT, fontSize: SunmiFontSize.LG));
+                  await SunmiPrinter.lineWrap(5);
                   final result = await SunmiPrinter.exitTransactionPrint();
+                  await SunmiPrinter.unbindPrinterService();
                   print("Result print: " + result);
                 },
                 child: Text("In ảnh"),
+              ),
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  await SunmiPrinter.bindPrinterService();
+                  await SunmiPrinter.initPrinter();
+
+
+                  final result1 = await SunmiPrinter.printStatus();
+                  final result2 = await SunmiPrinter.getPrinterStatusWithVerbose();
+                  print("Result1 status print: " + result1);
+                  print("Result2 status print: " + (result2 ?? ""));
+                  await SunmiPrinter.unbindPrinterService();
+                },
+                child: Text("Check trạng thái máy in"),
               ),
             ),
           ],

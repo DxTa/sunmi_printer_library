@@ -207,9 +207,56 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
 //                result.success(true);
 //                break;
             case "PRINT_STATUS":
-                sunmiPrintHelper.showPrinterStatus();
-                result.success(true);
-                break;
+//                String resultStatus = sunmiPrintHelper.showPrinterStatus();
+//                result.success(resultStatus);
+//                break;
+            final int status_code = sunmiPrintHelper.showPrinterStatus();
+            String status_msg = "";
+
+            // response printer status
+            switch (status_code) {
+                case 0:
+                    status_msg = "ERROR";
+                    break;
+                case 1:
+                    status_msg = "NORMAL";
+                    break;
+                case 2:
+                    status_msg = "PREPARING";
+                    break;
+                case 3:
+                    status_msg = "ABNORMAL_COMMUNICATION";
+                    break;
+                case 4:
+                    status_msg = "OUT_OF_PAPER";
+                    break;
+                case 5:
+                    status_msg = "OVERHEATED";
+                    break;
+                case 6:
+                    status_msg = "NOT_CLOSED";
+                    break;
+                case 7:
+                    status_msg = "PAPER_CUTTER_ABNORMAL";
+                    break;
+                case 8:
+                    status_msg = "PAPER_CUTTER_RECOVERED";
+                    break;
+                case 9:
+                    status_msg = "NO_BLACK_MARK";
+                    break;
+                case 505:
+                    status_msg = "NO_PRINTER_DETECTED";
+                    break;
+                case 507:
+                    status_msg = "FAILED_TO_UPGRADE_FIRMWARE";
+                    break;
+                default:
+                    status_msg = "EXCEPTION";
+            }
+
+            result.success(status_msg);
+            break;
             case "OPEN_CASH_BOX":
                 sunmiPrintHelper.openCashBox();
                 result.success(true);
