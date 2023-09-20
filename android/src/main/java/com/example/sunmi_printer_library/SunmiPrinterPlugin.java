@@ -21,7 +21,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin;
 
 public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
     private String CHANNEL = "sunmi_printer_library/method_channel";
-    String bigFont = "SFPRODISPLAYMEDIUM.tff";
+    String bigFont = "SFPRODISPLAYThin.ttf";
     String bigFontBold = "SFPRODISPLAYBOLD.ttf";
     String fontExtraBold = "SFPRODISPLAYBOLD.ttf";
     String fontLight = "SFPRODISPLAYLIGHT.ttf";
