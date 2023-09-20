@@ -100,10 +100,9 @@ class HomePrinterView extends StatelessWidget {
                     ColumnMaker(text: '3.00', width: 10, align: 2),
                     ColumnMaker(text: '12.00', width: 10, align: 2),
                   ]);
-                  await SunmiPrinter.printTable(cols: [
-                    ColumnMaker(text: 'Sản phẩm A', width: 10, align: 0),
-                    ColumnMaker(text: '4x', width: 6, align: 1),
-                    ColumnMaker(text: '30.00000', width: 10, align: 2),
+                  await SunmiPrinter.printTable(size: 20, cols: [
+                    ColumnMaker(text: 'Sản phẩm Ahq', width: 20, align: 0),
+                    // ColumnMaker(text: '4x', width: 6, align: 1),
                     ColumnMaker(text: '120.00000', width: 10, align: 2),
                   ]);
                   //await SunmiPrinter.initPrinterExam();
@@ -223,11 +222,9 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.startTransactionPrint();
 
                   await SunmiPrinter.printTextPlus('Hello I\'m bold',
-                      style: SunmiStyle(bold: true, align: SunmiPrintAlign.CENTER, fontSize: SunmiFontSize.XL));
+                      style: SunmiStyle(bold: true, align: SunmiPrintAlign.CENTER.intValue, fontSize: 24));
                   await SunmiPrinter.printTextPlus('Hello I\'m bold',
-                      style: SunmiStyle(align: SunmiPrintAlign.LEFT, fontSize: SunmiFontSize.LG));
-                  await SunmiPrinter.printTextPlus('Hello I\'m bold',
-                      style: SunmiStyle(align: SunmiPrintAlign.RIGHT, fontSize: SunmiFontSize.LG));
+                      style: SunmiStyle(bold: true, align: SunmiPrintAlign.CENTER.intValue, fontSize: 24));
                   await SunmiPrinter.lineWrap(5);
                   final result = await SunmiPrinter.exitTransactionPrint();
                   await SunmiPrinter.unbindPrinterService();
