@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_name
 
 class SunmiStyle {
-  SunmiFontSize? fontSize;
-  SunmiPrintAlign? align;
+  int? fontSize;
+  int? align;
   bool? bold;
 
   SunmiStyle({this.fontSize, this.align, this.bold});
@@ -46,6 +46,21 @@ enum SunmiPrintAlign {
   LEFT,
   CENTER,
   RIGHT,
+}
+
+extension SunmiPrintAlignExtension on SunmiPrintAlign {
+  int get intValue {
+    switch (this) {
+      case SunmiPrintAlign.LEFT:
+        return 0;
+      case SunmiPrintAlign.CENTER:
+        return 1;
+      case SunmiPrintAlign.RIGHT:
+        return 2;
+      default:
+        return 1;
+    }
+  }
 }
 
 ///*SunmiQrcodeLevel*

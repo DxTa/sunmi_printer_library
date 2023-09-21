@@ -133,29 +133,10 @@ class SunmiPrinter {
   static Future<void> printTextPlus(String text, {SunmiStyle? style}) async {
     if (style != null) {
       if (style.align != null) {
-        await setAlignment(style.align!);
+        await setAlignment(alignment: style.align);
       }
 
-      int _fontSize = 24;
-      if (style.fontSize != null) {
-        switch (style.fontSize) {
-          case SunmiFontSize.XS:
-            _fontSize = 14;
-            break;
-          case SunmiFontSize.SM:
-            _fontSize = 18;
-            break;
-          case SunmiFontSize.MD:
-            _fontSize = 24;
-            break;
-          case SunmiFontSize.LG:
-            _fontSize = 36;
-            break;
-          case SunmiFontSize.XL:
-            _fontSize = 42;
-            break;
-        }
-      }
+      int _fontSize = style.fontSize ?? 24;
 
       bool isBold = false;
       if (style.bold != null) {
@@ -253,7 +234,7 @@ class SunmiPrinter {
 
   static Future<void> printTable(
       {required List<ColumnMaker> cols, int? size}) async {
-    size ??= 20;
+    size ??= 30; /// Nó ăn theo font size khi set size này
     final _jsonCols = List<Map<String, String>>.from(
         cols.map<Map<String, String>>((ColumnMaker col) => col.toJson()));
     Map<String, dynamic> arguments = <String, dynamic>{
@@ -369,26 +350,8 @@ class SunmiPrinter {
   ///This method will change the fontsize , between extra small and extra large.
   ///You can see the sizes below or in the enum file.
 
-  static Future<void> setFontSize(SunmiFontSize _size) async {
-    int _fontSize = 24;
-    switch (_size) {
-      case SunmiFontSize.XS:
-        _fontSize = 14;
-        break;
-      case SunmiFontSize.SM:
-        _fontSize = 18;
-        break;
-      case SunmiFontSize.MD:
-        _fontSize = 24;
-        break;
-      case SunmiFontSize.LG:
-        _fontSize = 36;
-        break;
-      case SunmiFontSize.XL:
-        _fontSize = 42;
-        break;
-    }
-    Map<String, dynamic> arguments = <String, dynamic>{"size": _fontSize};
+  static Future<void> setFontSize(int _size) async {
+    Map<String, dynamic> arguments = <String, dynamic>{"size": _size};
 
     await platform.invokeMethod("FONT_SIZE", arguments);
   }
@@ -401,23 +364,8 @@ class SunmiPrinter {
     await platform.invokeMethod("FONT_SIZE", arguments);
   }
 
-  static Future<void> setAlignment(SunmiPrintAlign alignment) async {
-    late int value;
-    switch (alignment) {
-      case SunmiPrintAlign.LEFT:
-        value = 0;
-        break;
-      case SunmiPrintAlign.CENTER:
-        value = 1;
-        break;
-      case SunmiPrintAlign.RIGHT:
-        value = 2;
-        break;
-      default:
-        value = 0;
-    }
-    
-    Map<String, dynamic> arguments = <String, dynamic>{"alignment": value};
+  static Future<void> setAlignment({int? alignment = 1}) async {
+    Map<String, dynamic> arguments = <String, dynamic>{"alignment": alignment};
     await platform.invokeMethod("SET_ALIGNMENT", arguments);
   }
 
