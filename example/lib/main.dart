@@ -221,11 +221,17 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.initPrinter();
                   await SunmiPrinter.startTransactionPrint();
 
-                  await SunmiPrinter.printTextPlus('Hello I\'m bold',
-                      style: SunmiStyle(bold: true, align: SunmiPrintAlign.CENTER.intValue, fontSize: 24));
-                  await SunmiPrinter.printTextPlus('Hello I\'m bold',
-                      style: SunmiStyle(bold: true, align: SunmiPrintAlign.CENTER.intValue, fontSize: 24));
-                  await SunmiPrinter.lineWrap(5);
+                  await SunmiPrinter.setAlignmentPlus(1);
+                  await SunmiPrinter.lineWrap(1);
+                  String url = "https://firebasestorage.googleapis.com/v0/b/pepi-store-test.appspot.com/o/users%2FFXkJxtfxeBbbnLRuW155J4UYLLe2%2Frestaurants%2Fad9da1bf-ed6a-4dab-8951-170e83a7bc9e%2Fimages%2F2ed65e2e-f14d-4fa0-87d7-09668ce2e1c3.jpeg?alt=media&token=ad0d3219-bcea-4447-9320-1c470d4c1756";
+                  // convert image to Uint8List format
+                  Uint8List byte = (await NetworkAssetBundle(Uri.parse(url)).load(url))
+                      .buffer
+                      .asUint8List();
+                  await SunmiPrinter.printImage(byte);
+
+                  await SunmiPrinter.lineWrap(4);
+
                   final result = await SunmiPrinter.exitTransactionPrint();
                   await SunmiPrinter.unbindPrinterService();
                   print("Result print: " + result);
