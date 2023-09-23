@@ -269,8 +269,8 @@ class SunmiPrinter {
         return PrinterStatus.PREPARING;
       case 'OVERHEATED':
         return PrinterStatus.OVERHEATED;
-      case 'OPEN_THE_LID':
-        return PrinterStatus.OPEN_THE_LID;
+      case 'NOT_CLOSED':
+        return PrinterStatus.NOT_CLOSED;
       case 'PAPER_CUTTER_ABNORMAL':
         return PrinterStatus.PAPER_CUTTER_ABNORMAL;
       case 'PAPER_CUTTER_RECOVERED':
