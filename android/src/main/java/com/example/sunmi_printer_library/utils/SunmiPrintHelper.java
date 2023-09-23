@@ -813,7 +813,9 @@ public class SunmiPrintHelper {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        Toast.makeText(_context, result, Toast.LENGTH_LONG).show();
+        
+        /// Không cần phải show
+//        Toast.makeText(_context, result, Toast.LENGTH_LONG).show();
         return codeResult;
     }
 

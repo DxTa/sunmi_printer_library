@@ -30,7 +30,7 @@ enum PrinterStatus {
 }
 
 extension PrinterStatusExtension on PrinterStatus {
-  int get statusString {
+  String get statusString {
     switch (this) {
       case PrinterStatus.ERROR:
         return 'Something went wrong.';
@@ -56,7 +56,7 @@ extension PrinterStatusExtension on PrinterStatus {
         return "No printer had been detected";
       case PrinterStatus.FAILED_TO_UPGRADE_FIRMWARE:
         return "Failed to upgrade firmware";
-      case rinterStatus.EXCEPTION:
+      case PrinterStatus.EXCEPTION:
         return "Unknown Error code";
       default:
         return "";
