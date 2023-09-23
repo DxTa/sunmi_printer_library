@@ -16,17 +16,52 @@ enum PrinterStatus {
   UNKNOWN,
   ERROR,
   NORMAL,
+  PREPARING,
   ABNORMAL_COMMUNICATION,
   OUT_OF_PAPER,
-  PREPARING,
   OVERHEATED,
-  OPEN_THE_LID,
+  NOT_CLOSED,
   PAPER_CUTTER_ABNORMAL,
   PAPER_CUTTER_RECOVERED,
   NO_BLACK_MARK,
   NO_PRINTER_DETECTED,
   FAILED_TO_UPGRADE_FIRMWARE,
   EXCEPTION,
+}
+
+extension PrinterStatusExtension on PrinterStatus {
+  int get statusString {
+    switch (this) {
+      case PrinterStatus.ERROR:
+        return 'Something went wrong.';
+      case PrinterStatus.NORMAL:
+        return "Printer is running";
+      case PrinterStatus.ABNORMAL_COMMUNICATION:
+        return "Printer hardware interface is abnormal and needs to be reprinted";
+      case PrinterStatus.OUT_OF_PAPER:
+        return "Printer is out of paper";
+      case PrinterStatus.PREPARING:
+        return "Printer found but still initializing";
+      case PrinterStatus.OVERHEATED:
+        return "Printer is overheating";
+      case PrinterStatus.NOT_CLOSED:
+        return "Printer's cover is not closed";
+      case PrinterStatus.PAPER_CUTTER_ABNORMAL:
+        return "Printer's cutter is abnormal";
+      case PrinterStatus.PAPER_CUTTER_RECOVERED:
+        return "Printer's cutter is normal";
+      case PrinterStatus.NO_BLACK_MARK:
+        return "Not found black mark paper";
+      case PrinterStatus.NO_PRINTER_DETECTED:
+        return "No printer had been detected";
+      case PrinterStatus.FAILED_TO_UPGRADE_FIRMWARE:
+        return "Failed to upgrade firmware";
+      case rinterStatus.EXCEPTION:
+        return "Unknown Error code";
+      default:
+        return "";
+    }
+  }
 }
 
 ///*PrinterMode*
