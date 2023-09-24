@@ -142,3 +142,36 @@ enum SunmiFontSize {
   LG,
   XL,
 }
+
+/*
+case 'xs':
+        return 14;
+      case 'sm':
+        return 18;
+      case 'md':
+        return 24;
+      case 'lg':
+        return 36;
+      case 'xl':
+        return 42;
+      default:
+        return 24;
+ */
+extension SunmiFontSizeExtension on SunmiFontSize {
+  int get intValue {
+    switch (this) {
+      case SunmiFontSize.XS:
+        return 14;
+      case SunmiFontSize.SM:
+        return 18;
+      case SunmiFontSize.MD:
+        return 24;
+      case SunmiFontSize.LG:
+        return 36;
+      case SunmiFontSize.XL:
+        return 42;
+      default:
+        return 24;
+    }
+  }
+}
