@@ -59,7 +59,41 @@ extension PrinterStatusExtension on PrinterStatus {
       case PrinterStatus.EXCEPTION:
         return "Unknown Error code";
       default:
-        return "";
+        return "Unknown";
+    }
+  }
+
+  /// Get status string from enum status
+  String getStatus(PrinterStatus statusPrinter) {
+    switch (statusPrinter) {
+      case PrinterStatus.ERROR:
+        return 'ERROR';
+      case PrinterStatus.NORMAL:
+        return 'NORMAL';
+      case PrinterStatus.ABNORMAL_COMMUNICATION:
+        return 'ABNORMAL_COMMUNICATION';
+      case PrinterStatus.OUT_OF_PAPER:
+        return 'OUT_OF_PAPER';
+      case PrinterStatus.PREPARING:
+        return 'PREPARING';
+      case PrinterStatus.OVERHEATED:
+        return 'OVERHEATED';
+      case PrinterStatus.NOT_CLOSED:
+        return 'NOT_CLOSED';
+      case PrinterStatus.PAPER_CUTTER_ABNORMAL:
+        return 'PAPER_CUTTER_ABNORMAL';
+      case PrinterStatus.PAPER_CUTTER_RECOVERED:
+        return 'PAPER_CUTTER_RECOVERED';
+      case PrinterStatus.NO_BLACK_MARK:
+        return 'NO_BLACK_MARK';
+      case PrinterStatus.NO_PRINTER_DETECTED:
+        return 'NO_PRINTER_DETECTED';
+      case PrinterStatus.FAILED_TO_UPGRADE_FIRMWARE:
+        return 'FAILED_TO_UPGRADE_FIRMWARE';
+      case PrinterStatus.EXCEPTION:
+        return 'EXCEPTION';
+      default:
+        return 'UNKNOWN';
     }
   }
 }
