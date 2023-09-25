@@ -64,8 +64,8 @@ extension PrinterStatusExtension on PrinterStatus {
   }
 
   /// Get status string from enum status
-  String getStatus(PrinterStatus statusPrinter) {
-    switch (statusPrinter) {
+  String getStatus() {
+    switch (this) {
       case PrinterStatus.ERROR:
         return 'ERROR';
       case PrinterStatus.NORMAL:
