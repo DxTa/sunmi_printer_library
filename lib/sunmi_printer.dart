@@ -315,6 +315,10 @@ class SunmiPrinter {
     return await platform.invokeMethod("LABEL_MODEL");
   }
 
+  static Future<String> getDeviceModel() async {
+    return await platform.invokeMethod("DEVICE_MODEL");
+  }
+
   static Future<void> printTrans() async {
     await platform.invokeMethod("PRINT_TRANS");
   }

@@ -246,7 +246,7 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.initPrinter();
 
 
-                  final result1 = await SunmiPrinter.printStatus();
+                  final result1 = await SunmiPrinter.getDeviceModel();
                   final result2 = await SunmiPrinter.getPrinterStatusWithVerbose();
                   print("Result1 status print: " + result1);
                   print("Result2 status print: " + (result2 ?? ""));
