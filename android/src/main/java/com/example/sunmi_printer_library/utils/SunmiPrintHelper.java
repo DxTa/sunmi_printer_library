@@ -6,6 +6,8 @@ import com.sunmi.printerx.api.LineApi;
 import com.sunmi.printerx.style.BaseStyle;
 import com.sunmi.printerx.style.TextStyle;
 
+
+import java.util.List;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -175,7 +177,7 @@ public class SunmiPrintHelper {
      *  Initialize the printer
      *  All style settings will be restored to default
      */
-    public void initPrinter(){
+    public void initPrinter(Context context){
         try {
             PrinterSdk.getInstance().getPrinter(context, new PrinterSdk.PrinterListen() {
                 @Override

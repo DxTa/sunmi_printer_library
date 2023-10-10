@@ -307,6 +307,10 @@ class SunmiPrinter {
     await platform.invokeMethod("FEED_PAPER");
   }
 
+  static Future<void> autoOut() async {
+    await platform.invokeMethod("AUTO_OUT");
+  }
+
   static Future<bool> getBackLabelMode() async {
     return await platform.invokeMethod("BACK_LABEL_MODE");
   }
