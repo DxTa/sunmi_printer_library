@@ -278,6 +278,10 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 sunmiPrintHelper.feedPaper();
                 result.success(true);
                 break;
+            case "AUTO_OUT":
+                sunmiPrinterHelper.autoOut();
+                result.success(true);
+                break;
             case "BACK_LABEL_MODE":
                 boolean isBackkLabel = sunmiPrintHelper.isBlackLabelMode();
                 result.success(isBackkLabel);
