@@ -246,11 +246,21 @@ class HomePrinterView extends StatelessWidget {
                   await SunmiPrinter.initPrinter();
 
 
-                  final result1 = await SunmiPrinter.getDeviceModel();
-                  final result2 = await SunmiPrinter.getPrinterStatusWithVerbose();
-                  print("Result1 status print: " + result1);
-                  print("Result2 status print: " + (result2 ?? ""));
-                  await SunmiPrinter.unbindPrinterService();
+
+                  final result1 = await SunmiPrinter.getPrinterStatus();
+                  final result2 = await SunmiPrinter.getPrinterStatus();
+                  final result3 = await SunmiPrinter.getPrinterStatus();
+                  final result4 = await SunmiPrinter.getPrinterStatus();
+                  final result5 = await SunmiPrinter.getPrinterStatus();
+                  final result6 = await SunmiPrinter.getPrinterStatus();
+
+                  print("Result1 status print: " + (result1?.originalStatus ?? ''));
+                  print("Result2 status print: " + (result2?.originalStatus  ?? ''));
+                  print("Result3 status print: " + (result3?.originalStatus ?? ''));
+                  print("Result4 status print: " + (result4?.originalStatus  ?? ''));
+                  print("Result5 status print: " + (result5?.originalStatus ?? ''));
+                  print("Result6 status print: " + (result6?.originalStatus  ?? ''));
+                  // await SunmiPrinter.unbindPrinterService();
                 },
                 child: Text("Check trạng thái máy in"),
               ),

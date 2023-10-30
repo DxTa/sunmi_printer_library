@@ -8,6 +8,13 @@ class SunmiStyle {
   SunmiStyle({this.fontSize, this.align, this.bold});
 }
 
+class SunmiStatus {
+  PrinterStatus? status;
+  String? originalStatus;
+
+  SunmiStatus({this.status, this.originalStatus});
+}
+
 ///*PrinterStatus*
 ///
 ///This enum will give you the status of the printer.

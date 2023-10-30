@@ -252,9 +252,9 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                     status_msg = "FAILED_TO_UPGRADE_FIRMWARE";
                     break;
                 default:
-                    status_msg = "EXCEPTION";
+                    status_msg = Integer.toString(status_code);
+                    break;
             }
-
             result.success(status_msg);
             break;
             case "OPEN_CASH_BOX":

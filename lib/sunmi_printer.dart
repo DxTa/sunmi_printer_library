@@ -252,40 +252,57 @@ class SunmiPrinter {
   ///
   ///This method will give you the status of the printer.
   ///Sometimes the printer can give you an error, so, try to print anyway.
-  static Future<PrinterStatus> getPrinterStatus() async {
+  static Future<SunmiStatus> getPrinterStatus() async {
     final String? status = await platform.invokeMethod('PRINT_STATUS');
-    print('getPrinterStatus');
-    print(status);
+    PrinterStatus printerStatus = PrinterStatus.NORMAL;
+    
     switch (status) {
       case 'ERROR':
-        return PrinterStatus.ERROR;
+        printerStatus = PrinterStatus.ERROR;
+        break;
       case 'NORMAL':
-        return PrinterStatus.NORMAL;
+        printerStatus = PrinterStatus.NORMAL;
+        break;
       case 'ABNORMAL_COMMUNICATION':
-        return PrinterStatus.ABNORMAL_COMMUNICATION;
+        printerStatus =  PrinterStatus.ABNORMAL_COMMUNICATION;
+        break;
       case 'OUT_OF_PAPER':
-        return PrinterStatus.OUT_OF_PAPER;
+        printerStatus = PrinterStatus.OUT_OF_PAPER;
+        break;
       case 'PREPARING':
-        return PrinterStatus.PREPARING;
+        printerStatus = PrinterStatus.PREPARING;
+        break;
       case 'OVERHEATED':
-        return PrinterStatus.OVERHEATED;
+        printerStatus = PrinterStatus.OVERHEATED;
+        break;
       case 'NOT_CLOSED':
-        return PrinterStatus.NOT_CLOSED;
+        printerStatus = PrinterStatus.NOT_CLOSED;
+        break;
       case 'PAPER_CUTTER_ABNORMAL':
-        return PrinterStatus.PAPER_CUTTER_ABNORMAL;
+        printerStatus = PrinterStatus.PAPER_CUTTER_ABNORMAL;
+        break;
       case 'PAPER_CUTTER_RECOVERED':
-        return PrinterStatus.PAPER_CUTTER_RECOVERED;
+        printerStatus = PrinterStatus.PAPER_CUTTER_RECOVERED;
+        break;
       case 'NO_BLACK_MARK':
-        return PrinterStatus.NO_BLACK_MARK;
+        printerStatus = PrinterStatus.NO_BLACK_MARK;
+        break;
       case 'NO_PRINTER_DETECTED':
-        return PrinterStatus.NO_PRINTER_DETECTED;
+        printerStatus = PrinterStatus.NO_PRINTER_DETECTED;
+        break;
       case 'FAILED_TO_UPGRADE_FIRMWARE':
-        return PrinterStatus.FAILED_TO_UPGRADE_FIRMWARE;
+        printerStatus = PrinterStatus.FAILED_TO_UPGRADE_FIRMWARE;
+        break;
       case 'EXCEPTION':
-        return PrinterStatus.EXCEPTION;
+        printerStatus = PrinterStatus.EXCEPTION;
+        break;
       default:
-        return PrinterStatus.UNKNOWN;
+        printerStatus = PrinterStatus.UNKNOWN;
+        break;
     }
+
+    SunmiStatus sunmiStatus = SunmiStatus(status: printerStatus, originalStatus: status);
+    return sunmiStatus;
   }
 
   ///*getPrinterStatusWithVerbose*
