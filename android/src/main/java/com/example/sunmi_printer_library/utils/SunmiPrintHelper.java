@@ -1,5 +1,13 @@
 package com.example.sunmi_printer_library.utils;
 
+import com.sunmi.printerx.PrinterSdk;
+import com.sunmi.printerx.SdkException;
+import com.sunmi.printerx.api.LineApi;
+import com.sunmi.printerx.style.BaseStyle;
+import com.sunmi.printerx.style.TextStyle;
+
+
+import java.util.List;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +40,9 @@ public class SunmiPrintHelper {
     public static int CheckSunmiPrinter = 0x00000001;
     public static int FoundSunmiPrinter = 0x00000002;
     public static int LostSunmiPrinter = 0x00000003;
+
+    public PrinterSdk.Printer selectPrinter;
+
 
     /**
      *  sunmiPrinter means checking the printer connection status
@@ -166,7 +177,22 @@ public class SunmiPrintHelper {
      *  Initialize the printer
      *  All style settings will be restored to default
      */
-    public void initPrinter(){
+    public void initPrinter(Context context){
+        try {
+            PrinterSdk.getInstance().getPrinter(context, new PrinterSdk.PrinterListen() {
+                @Override
+                public void onDefPrinter(PrinterSdk.Printer printer) {
+                    selectPrinter = printer;
+                }
+
+                @Override
+                public void onPrinters(List<PrinterSdk.Printer> printers) {
+
+                }
+            });
+        } catch (SdkException e) {
+            e.printStackTrace();
+        }
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
             return;
@@ -364,6 +390,15 @@ public class SunmiPrintHelper {
             sunmiPrinterService.autoOutPaper(null);
         } catch (RemoteException e) {
             print3Line();
+        }
+    }
+
+    public void autoOut(){
+        try {
+            LineApi api = selectPrinter.lineApi();
+            api.autoOut();
+        } catch (SdkException e) {
+            e.printStackTrace();
         }
     }
 

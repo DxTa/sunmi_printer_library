@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.RemoteException;
 import android.util.Log;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +21,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 
 public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
+    private static Context context;
     private String CHANNEL = "sunmi_printer_library/method_channel";
     String bigFont = "SFPRODISPLAYRegular.ttf";
     String bigFontBold = "SFPRODISPLAYBOLD.ttf";
@@ -46,7 +48,8 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
         final MethodChannel channel = new MethodChannel(
                 flutterPluginBinding.getBinaryMessenger(),
                 CHANNEL);
-        sunmiPrintHelper = new SunmiPrintHelper(flutterPluginBinding.getApplicationContext());
+        SunmiPrinterPlugin.context = flutterPluginBinding.getApplicationContext();
+        sunmiPrintHelper = new SunmiPrintHelper(SunmiPrinterPlugin.context);
 
         channel.setMethodCallHandler(this);
     }
@@ -77,7 +80,7 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 result.success(true);
                 break;
             case "INIT_PRINTER":
-                sunmiPrintHelper.initPrinter();
+                sunmiPrintHelper.initPrinter(SunmiPrinterPlugin.context);
                 result.success(true);
                 break;
             case "ENTER_PRINTER_BUFFER":
@@ -276,6 +279,10 @@ public class SunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler {
                 break;
             case "FEED_PAPER":
                 sunmiPrintHelper.feedPaper();
+                result.success(true);
+                break;
+            case "AUTO_OUT":
+                sunmiPrintHelper.autoOut();
                 result.success(true);
                 break;
             case "BACK_LABEL_MODE":
